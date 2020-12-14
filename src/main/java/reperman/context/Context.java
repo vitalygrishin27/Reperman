@@ -1,7 +1,7 @@
 package reperman.context;
 
 public class Context {
-    public static Long ACTIVE_SONG_ID = 0L;
+    public static Long ACTIVE_SONG_ID = 1L;
 
     public static void setActiveSongId(Long activeSongId) {
         ACTIVE_SONG_ID = activeSongId;

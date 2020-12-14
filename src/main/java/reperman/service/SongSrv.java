@@ -7,7 +7,9 @@ import reperman.context.Context;
 import reperman.entity.Song;
 import reperman.repository.SongRepo;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SongSrv {
@@ -15,7 +17,9 @@ public class SongSrv {
     private SongRepo songRepo;
 
     public List<Song> findAll() {
-        return songRepo.findAll();
+        List<Song> result = songRepo.findAll().stream().sorted(Comparator.comparing(Song::getName))
+                .collect(Collectors.toList());
+        return result;
     }
 
     public Song findById(Long id) {
