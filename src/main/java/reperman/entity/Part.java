@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @JsonIgnore
     @ManyToOne
@@ -24,4 +24,14 @@ public class Part {
     private Instrument instrument;
     @Lob
     private String picture;
+
+    @Override
+    public String toString() {
+        return "Part{" +
+                "id=" + id +
+                ", songId=" + (song == null ? null : song.getId()) +
+                ", instrument=" + instrument +
+                ", picture='" + picture + '\'' +
+                '}';
+    }
 }
