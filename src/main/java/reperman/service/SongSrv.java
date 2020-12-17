@@ -11,6 +11,7 @@ import reperman.exception.SongNotFoundException;
 import reperman.repository.PartRepo;
 import reperman.repository.SongRepo;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -59,17 +60,25 @@ public class SongSrv {
                   //  partRepo.saveAndFlush(newPart);
                 }
             });
+            List<Part> listPartForDelete=new ArrayList<>();
             songFromDB.getParts().forEach(part -> {
                 Optional<Part> optPart = song.getParts().stream().filter(part1 -> part.getInstrument().equals(part1.getInstrument())).findFirst();
                 if (!optPart.isPresent()) {
-                    songFromDB.removePart(part);
-                    partRepo.delete(part);
+                    listPartForDelete.add(part);
+                    //songFromDB.removePart(part);
+                 //   partRepo.delete(part);
                 }
             });
           //  songFromDB.setParts(null);
+            listPartForDelete.forEach(part -> {
+                songFromDB.removePart(part);
+                partRepo.delete(part);
+            });
             songRepo.saveAndFlush(songFromDB);
         } else {
-            song.getParts().forEach(song::addPart);
+            song.getParts().forEach(part -> {
+                part.setSong(song);
+            });
             songRepo.saveAndFlush(song);
         }
         return HttpStatus.CREATED;

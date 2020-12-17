@@ -32,7 +32,7 @@ public class Song {
     }
 
     public void removePart(Part part) {
-        this.parts.remove(part);
         part.setSong(null);
+        this.parts.remove(part);
     }
 }
