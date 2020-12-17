@@ -37,7 +37,7 @@ public class SongSrv {
     public HttpStatus save(Song song) {
         if (song.getId() != null) {
             Optional<Song> optionalSongFromDB = songRepo.findById(song.getId());
-            if (optionalSongFromDB.isEmpty()) {
+            if (!optionalSongFromDB.isPresent()) {
                 throw new SongNotFoundException(song.getId());
             }
             Song songFromDB = optionalSongFromDB.get();
@@ -61,7 +61,7 @@ public class SongSrv {
             });
             songFromDB.getParts().forEach(part -> {
                 Optional<Part> optPart = song.getParts().stream().filter(part1 -> part.getInstrument().equals(part1.getInstrument())).findFirst();
-                if (optPart.isEmpty()) {
+                if (!optPart.isPresent()) {
                     songFromDB.removePart(part);
                     partRepo.delete(part);
                 }
